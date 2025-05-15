@@ -1,37 +1,26 @@
 import mongoose from "mongoose";
 const schema = mongoose.Schema;
 
-const MentorSchema = new schema(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    pno: { type: String, required: true },
-    dob: { type: String, required: true },
-    password: { type: String, required: true }, // Password save as hash
-    sessions: [
+const AttendanceSchema = new schema(
       {
-        session_id: { type: String, required: true },
         date: { type: Date, required: true },
-        time: { type: String, required: true },
-        name: { type: String, required: true },
-        duration: { type: String, required: true },
-        location: { type: String, required: true },
-        radius: { type: String, required: true },
+        name: { type: String, default:"Koshish Class" },
+        duration: { type: Number, default: 60 },
+        location: { type: String, default:"" },
+        radius: { type: String, default: "2" },
         attendance: [
           {
-            regno: { type: String, required: true },
-            image: { type: String, required: true },
+            userId: { type: String, required: true },
+            subject:{ type: String, required: true },
+            class:{type: String, required:true, unique:true},
             IP: { type: String, required: true },
-            date: { type: Date, required: true },
-            mentor_email: { type: String, required: true },
-            Location: { type: String, required: true },
+            time: { type: Date, default: Date.now() },
+            Location : { type: String, required: true },
             distance: { type: String, required: true },
           },
         ],
       },
-    ],
-  },
   { timestamps: true }
 );
 
-export const MentorAttendModel = mongoose.model("MentorAttend", MentorSchema);
+export const MentorAttendModel = mongoose.model("MentorAttend", AttendanceSchema);
