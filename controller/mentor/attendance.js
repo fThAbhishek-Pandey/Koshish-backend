@@ -46,47 +46,33 @@ function checkStudentDistance(Location1, Location2) {
 //attend session
 async function AttendSession(req, res) {
   let tokenData = req.user;
-  const { userId, IP, Location } =
+  const { userId, IP,class , subject, Location } =
     req.body;
     const {id} = req.params
 
   try {
     let present = false;
     let session_details = {};
-    const MentorAttend = await MemberModel
+    const MentorAttend = await MemberModel.findById(id)
     teacher.sessions.map(async (session) => {
-      if (session.session_id === session_id) {
+    
         let distance = checkStudentDistance(Location, session.location);
-        session.attendance.map((mentor) => {
-          if (
-            mentor.regno === regno
-          ) {
-            present = true;
-          }
-        });
         if (!present) {
           res.status(200).json({ message: "Attendance marked successfully" });
            
-          session.attendance.push({
-              regno,
+          MentorAttend.attendance.push({
+              userId,
               date,
+              class,
+              subject,
               IP,
-              mentor_email: tokenData.email,
               Location,
               distance,
             });
           
-          await MemberModel.findOneAndUpdate(
-            { userId: teacher_email },
-            { sessions: teacher.sessions }
-          );
-          await Student.findOneAndUpdate(
-            { userId: mentor_email },
-            { $push: { sessions: session_details } }
-          );
         }
       }
-    });
+    );
     if (present) {
       res.status(200).json({ message: "Attendance already marked" });
     }
