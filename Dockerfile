@@ -1,5 +1,5 @@
 # Use a smaller, more secure base image
-FROM node@sha256:3ebf2875c188d22939c6ab080cfb1a4a6248cc86bae600ea8e2326aa03acdb8f
+FROM node:alpine3.19
 
 # Install nodemon globally
 RUN npm install -g nodemon

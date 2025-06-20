@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 const ConnectDB = async ()=>{
         // console.log("i am called : ",process.env.MONGODB_URI);
         mongoose.connection.on ('connected', ()=>console.log("Databse connected : "));
-        await mongoose.connect(`${process.env.MONGODB_URI}/koshish`)
+        await mongoose.connect(`${process.env.MONGODB_URI}/koshish`, {
+                useNewUrlParser: true,
+      useUnifiedTopology: true,
+        })
 }
 export default ConnectDB
